@@ -1,0 +1,143 @@
+# cseed-api-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cseed-api-deployment
+  namespace: devops-ll
+spec:
+  selector:
+    matchLabels:
+      app: cseed-api
+  replicas: 5
+  template:
+    metadata:
+      name: cseed-api
+      namespace: devops-ll
+      labels:
+        app: cseed-api
+    spec:
+      containers:
+        - name: cseed-api
+          image: sworyz/cseed_api:api-latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 5000
+---
+# cseed-api-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: cseed-api-service
+  namespace: devops-ll
+  labels:
+    app: cseed-api
+spec:
+  selector:
+    app: cseed-api
+  ports:
+  - name: http
+    port: 5000
+    targetPort: 5000
+    nodePort: 30030
+  type: NodePort
+---
+# postgres-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: devops-ll
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: cseed
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+---
+# postgres-storage.yaml
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-volume
+  namespace: devops-ll
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim
+  namespace: devops-ll
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+# postgres-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: cseed-postgres-service
+  namespace: devops-ll
+  labels:
+    app: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
+    #nodePort: 30031
+  type: NodePort
+---
+# postgres-stateful.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cseed-postgres-stateful
+  namespace: devops-ll
+spec:
+  serviceName: "postgres"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      namespace: devops-ll
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: cseed-postgres
+        image: postgres:latest
+        envFrom:
+          - configMapRef:
+              name: postgres-config
+        ports:
+        - containerPort: 5432
+          name: postgredb
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+      nodeSelector:
+        strg: ok
