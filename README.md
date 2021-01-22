@@ -23,12 +23,15 @@ Pour que le deployment du kubernetes fonctionne, il faut labéliser le master no
 Cela nous permet de nous assurer que postgreSQL se lance bien là où se trouve le stockage, étant donné que la persistance du stockage est activée entre les redémarrages.
 
 Les requêtes entre le Front et le Back se font en interne via http://cseed-api-service:5000 et les requêtes du Back à la BDD via http://cseed-postgres-service:5432, configuré via le .env
-Vous pouvez changer les infos de la base de données avec de créer le Docker, ou les adapter directement dans le Kubernetes.
+Vous pouvez changer les infos de la base de données avant de créer le Docker, ou les adapter directement dans le Kubernetes.
 
 Le PullPolicy des conteneurs cseed est aggressif via le paramètre `Always`, pour faciliter les tests de développement.
 
+Pour voir si tout fonctionne bien au niveau des liens interne : https://api.cseed.ehanor.fr/healthcheck
+
 # Liens
 Pour retrouver le projet en déploiement, c'est ici : https://front.cseed.ehanor.fr/
+
 Actuellement, vous pouvez :
 - vous enregistrer (email valide, username entre 3 et 30 caractères, ainsi qu'un mot de passe entre 12 et 32 caractères contenant chiffre, majuscule miniscule et caractère spécial)
 - vous connecter
