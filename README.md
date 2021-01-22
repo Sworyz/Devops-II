@@ -1,6 +1,6 @@
 # DevOps II
 Bienvenue sur le projet de DevOps II utilisant une base de donnée postgreSQL, une API en Flask ainsi qu'un Front en Flask.
-Pour les informations sur les sources, réferez vous à ce lien : https://git.ehanor.fr/ehanor/cseed
+Pour les informations sur les sources, réferez vous à ce lien : https://git.ehanor.fr/ehanor/cseed pour les projets et https://hub.docker.com/r/sworyz/cseed_api pour les docker.
 
 ```
 Le projet CSEED, une API REST programmé avec Python et Flask, fait partie d'un plus grand projet voulant permettre à beaucoup d'utilisations d'avoir une API simple mais sécurisé pour leurs jeux. Ce projet fait partie principalement de The Seed Project by Ehanor, une stack MMO ouverte basé sur Unreal Engine 4.
