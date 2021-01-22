@@ -2,8 +2,11 @@
 Bienvenue sur le projet de DevOps II utilisant une base de donnée postgreSQL, une API en Flask ainsi qu'un Front en Flask.
 Pour les informations sur les sources, réferez vous à ce lien : https://git.ehanor.fr/ehanor/cseed
 
-Pour le développement de ce projet, nous utilisons l'intégration continue sous Kubernetes, ainsi que la construction automatique d'image Docker - via un Gitlab Runner et Kaniko -
-qui sont envoyés directement sur le Dockerhub. C'est d'ailleurs elles que nous utilisons dans le deployment du Kubernetes.
+```
+Le projet CSEED, une API REST programmé avec Python et Flask, fait partie d'un plus grand projet voulant permettre à beaucoup d'utilisations d'avoir une API simple mais sécurisé pour leurs jeux. Ce projet fait partie principalement de The Seed Project by Ehanor, une stack MMO ouverte basé sur Unreal Engine 4.
+```
+
+Pour le développement de ce projet, nous utilisons l'intégration continue sous Kubernetes, que vous pourrez retrouver dans les sources au dessus, ainsi que la construction automatique d'image Docker - via un Gitlab Runner et Kaniko - qui sont envoyés directement sur le Dockerhub. C'est d'ailleurs elles que nous utilisons dans le deployment du Kubernetes.
 
 # Notre Infrastructure
 Voici notre configuration Kubernetes :
