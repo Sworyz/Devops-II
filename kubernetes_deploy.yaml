@@ -1,3 +1,47 @@
+# cseed-front-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cseed-front-deployment
+  namespace: devops-ll
+spec:
+  selector:
+    matchLabels:
+      app: cseed-front
+  replicas: 5
+  template:
+    metadata:
+      name: cseed-front
+      namespace: devops-ll
+      labels:
+        app: cseed-front
+    spec:
+      containers:
+        - name: cseed-front
+          image: sworyz/cseed_api:front-latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 5001
+---
+# cseed-front-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: cseed-front-service
+  namespace: devops-ll
+  labels:
+    app: cseed-front
+spec:
+  selector:
+    app: cseed-front
+  ports:
+  - name: http
+    port: 5001
+    targetPort: 5001
+    nodePort: 30032
+  type: NodePort
+---
+###########
 # cseed-api-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -8,7 +52,7 @@ spec:
   selector:
     matchLabels:
       app: cseed-api
-  replicas: 5
+  replicas: 3
   template:
     metadata:
       name: cseed-api
@@ -113,7 +157,7 @@ metadata:
   namespace: devops-ll
 spec:
   serviceName: "postgres"
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: postgres
