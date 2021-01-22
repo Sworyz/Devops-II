@@ -18,6 +18,7 @@ Cette infrastructure est hébergé sous un serveur Proxmox et se trouve derrièr
 
 
 # Informations à savoir
+Avant tout, il vous faudra créer le namespace `devops-ll`, pour se faire : `kubectl create namespace devops-ll`.
 Pour que le deployment du kubernetes fonctionne, il faut labéliser le master node en tant que strg=ok, pour se faire : `kubectl label nodes <node-name> strg=ok`.
 Cela nous permet de nous assurer que postgreSQL se lance bien là où se trouve le stockage, étant donné que la persistance du stockage est activée entre les redémarrages.
 
